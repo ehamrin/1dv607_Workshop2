@@ -9,4 +9,5 @@
     });
 
     $c = new \controller\Program();
-    $c->Main();
+    $view = new \view\HTMLView();
+    $view->Render($c->Main());
