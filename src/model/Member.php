@@ -18,10 +18,12 @@ class Member
         $this->id = $id;
 
         $this->boats = new dal\BoatRepository($this->id);
+
     }
 
     public function GetAllBoats(){
         return $this->boats->GetAllBoats();
+
     }
 
     public function GetBoatCount(){

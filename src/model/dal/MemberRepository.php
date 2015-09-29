@@ -12,6 +12,7 @@ class MemberRepository
         $connection = new DatabaseConnection();
         try{
             $this->db = $connection->Establish();
+            $this->db->SetAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
         }catch(\Exception $e){
             throw $e;
         }

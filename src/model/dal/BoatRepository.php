@@ -10,9 +10,12 @@ class BoatRepository
     private $memberUnique;
 
     public function __construct($memberUnique){
+        $this->memberUnique = $memberUnique;
+
         $connection = new DatabaseConnection();
         try{
             $this->db = $connection->Establish();
+            $this->db->SetAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
         }catch(\Exception $e){
             throw $e;
         }
@@ -21,11 +24,11 @@ class BoatRepository
     public function GetAllBoats(){
         $ret = array();
 
-        $stmt = $this->db->prepare("SELECT * FROM boat WHERE member = ? ORDER BY name");
+        $stmt = $this->db->prepare("SELECT * FROM boat WHERE member = ?");
         $stmt->execute(array($this->memberUnique));
 
         while($boat = $stmt->fetchObject()){
-            $ret[] =  new \model\Member($boat->length, $boat->type, $boat->id);
+            $ret[] =  new \model\Boat($boat->type, $boat->length, $boat->id);
         }
 
         return $ret;
