@@ -52,9 +52,6 @@ class NavigationView
         <li><a href="?' . self::$action . '=' . self::ViewAll . '">View All</a></li>
         <li><a href="?' . self::$action . '=' . self::ViewAllVerbose . '">View All Verbose</a></li>
         <li><a href="?' . self::$action . '=' . self::AddMember . '">Add Member</a></li>
-        <li><a href="?' . self::$action . '=' . self::EditBoat . '">Edit Boat</a></li>
-        <li><a href="?' . self::$action . '=' . self::AddBoat . '">Add Boat</a></li>
-        <li><a href="?' . self::$action . '=' . self::DeleteBoat . '">Delete Boat</a></li>
     </ol>
         ';
 
