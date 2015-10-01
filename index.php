@@ -8,6 +8,8 @@
         }
     });
 
+    include_once("Settings.php");
+
     $c = new \controller\Program();
     $view = new \view\HTMLView();
     $view->Render($c->Main());
