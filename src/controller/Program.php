@@ -7,6 +7,9 @@ class Program
     /* @var $memberView \view\Member */
     private $memberView;
 
+    /* @var $boatView \view\Boat */
+    private $boatView;
+
     /* @var $navView \view\NavigationView */
     private $navView;
 
@@ -52,7 +55,8 @@ class Program
     public function Main(){
         $this->memberRepository = new \model\dal\MemberRepository();
         $this->navView = new \view\NavigationView();
-        $this->memberView = new \view\Member($this->memberRepository, $this->navView, new \view\Boat());
+        $this->boatView = new \view\Boat();
+        $this->memberView = new \view\Member($this->memberRepository, $this->navView, $this->boatView);
 
         return $this->RunAction();
     }
@@ -99,7 +103,7 @@ class Program
     }
 
     public function AddBoat(){
-        return "";
+        return $this->boatView->AddBoat();
     }
 
     public function DeleteBoat(){
