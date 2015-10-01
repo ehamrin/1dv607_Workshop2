@@ -7,11 +7,17 @@ class Program
     /* @var $memberView \view\Member */
     private $memberView;
 
+    /* @var $boatView \view\Boat */
+    private $boatView;
+
     /* @var $navView \view\NavigationView */
     private $navView;
 
     /* @var $navView \model\dal\MemberRepository */
     private $memberRepository;
+
+    /* @var $navView \model\dal\BoatRepository */
+    private $boatRepository;
 
     public function RunAction()
     {
@@ -51,8 +57,10 @@ class Program
 
     public function Main(){
         $this->memberRepository = new \model\dal\MemberRepository();
+        $this->boatRepository = new \model\dal\BoatRepository();
         $this->navView = new \view\NavigationView();
-        $this->memberView = new \view\Member($this->memberRepository, $this->navView, new \view\Boat());
+        $this->boatView = new \view\Boat();
+        $this->memberView = new \view\Member($this->memberRepository, $this->navView, $this->boatView);
 
         return $this->RunAction();
     }
@@ -99,7 +107,14 @@ class Program
     }
 
     public function AddBoat(){
-        return "";
+        if($this->boatView->HasAddedBoat()){
+            $newBoat = $this->boatView->GetNewBoat();
+            $this->boatRepository->Save($newBoat);
+
+            return $this->boatView->AddedSuccess();
+        }else{
+            return $this->boatView->AddBoat();
+        }
     }
 
     public function DeleteBoat(){

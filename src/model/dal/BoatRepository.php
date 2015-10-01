@@ -8,8 +8,9 @@ class BoatRepository
 {
     private $db;
     private $memberUnique;
-
-    public function __construct($memberUnique){
+    //TODO: Solve problem when constructing in Program.php->Main()
+    //Temp-fix, default value 0
+    public function __construct($memberUnique = 0){
         $this->memberUnique = $memberUnique;
 
         $connection = new DatabaseConnection();
@@ -44,7 +45,7 @@ class BoatRepository
 
     private function Create(\model\Boat $boat){
         $stmt = $this->db->prepare("INSERT INTO boat (member, length, type) VALUE (?, ?, ?)");
-        $stmt->execute(array($this->memberUnique, $boat->GetLength(), $boat->GetType()));
+        $stmt->execute(array($boat->getOwner(), $boat->GetLength(), $boat->GetType()));
         $boat->SetID($this->db->lastInsertId());
     }
 
