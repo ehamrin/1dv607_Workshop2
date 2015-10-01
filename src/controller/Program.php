@@ -16,6 +16,9 @@ class Program
     /* @var $navView \model\dal\MemberRepository */
     private $memberRepository;
 
+    /* @var $navView \model\dal\BoatRepository */
+    private $boatRepository;
+
     public function RunAction()
     {
         switch($this->navView->GetAction()){
@@ -54,6 +57,7 @@ class Program
 
     public function Main(){
         $this->memberRepository = new \model\dal\MemberRepository();
+        $this->boatRepository = new \model\dal\BoatRepository();
         $this->navView = new \view\NavigationView();
         $this->boatView = new \view\Boat();
         $this->memberView = new \view\Member($this->memberRepository, $this->navView, $this->boatView);
