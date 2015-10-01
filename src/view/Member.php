@@ -53,7 +53,8 @@ class Member
         $ret = '';
         $ret .= $this->navView->GetViewMemberLink(self::$memberPosition . '=' . $member->GetID(), "View " . $member->GetName()) . ' ';
         $ret .= $this->navView->GetEditMemberLink(self::$memberPosition . '=' . $member->GetID(), "Edit") . ' ';
-        $ret .= $this->navView->GetDeleteMemberLink(self::$memberPosition . '=' . $member->GetID(), "Delete");
+        $ret .= $this->navView->GetDeleteMemberLink(self::$memberPosition . '=' . $member->GetID(), "Delete" . ' ');
+        $ret .= $this->navView->GetAddBoatLink(self::$memberPosition . '=' . $member->GetID(), "Add boat");
         return $ret;
     }
 
