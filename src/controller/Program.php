@@ -107,7 +107,14 @@ class Program
     }
 
     public function AddBoat(){
-        return $this->boatView->AddBoat();
+        if($this->boatView->HasAddedBoat()){
+            $newBoat = $this->boatView->GetNewBoat();
+            $this->boatRepository->Save($newBoat);
+
+            return $this->boatView->AddedSuccess();
+        }else{
+            return $this->boatView->AddBoat();
+        }
     }
 
     public function DeleteBoat(){

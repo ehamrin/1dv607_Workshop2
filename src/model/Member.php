@@ -23,7 +23,6 @@ class Member
 
     public function GetAllBoats(){
         return $this->boats->GetAllBoats();
-
     }
 
     public function GetBoatCount(){
