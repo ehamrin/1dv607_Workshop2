@@ -14,6 +14,7 @@ class Member
     private static $ssn = "MemberView::Ssn";
     private static $registration = "MemberView::Register";
     private static $messageId = "MemberView::MessageId";
+    private static $deleteMember = "MemberView::Delete";
 
     private static $memberPosition = "member";
     private $message;
@@ -167,21 +168,31 @@ class Member
     }
 
     public function WantsToDeleteMember(){
-        return false;
+        if(isset($_POST[self::$deleteMember])) {
+            return $_POST[self::$deleteMember];
+        }
     }
 
     public function GetMemberToDelete(){
-        return new \model\Member("Kalle Anka", "8202020202");
+        $id = $_GET['member'];
+        $userToDelete = $this->repository->GetUserById($id);
+        return $userToDelete;
     }
 
     public function DeletedSuccess(){
-        return "";
+        return "<p>Member has been deleted!</p>";
     }
 
     public function DeleteMember(){
-        return "
-        <p>Vill du radera den här användaren?</p>
-        ";
+        $id = $_GET['member'];
+        $userToDelete = $this->repository->GetUserById($id);
+
+        $ret = '<p>Are you sure you want to delete '. $userToDelete->GetName() .'?</p>';
+        $ret .= '
+            <form method="post">
+                <input id="submit" type="submit" name="' . self::$deleteMember . '"  value="Delete" />
+            </form>';
+        return $ret;
     }
 
 }

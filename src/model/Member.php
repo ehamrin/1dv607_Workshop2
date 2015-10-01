@@ -45,4 +45,8 @@ class Member
     public function GetID(){
         return $this->id;
     }
+
+    public function GetMemberById($id){
+
+    }
 }
