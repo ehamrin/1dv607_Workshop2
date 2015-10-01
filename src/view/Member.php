@@ -64,7 +64,22 @@ class Member
     }
 
     public function ViewMember(){
-        return "";
+        $id = $_GET['member'];
+        $userToShow = $this->repository->GetUserById($id);
+
+        $ret = '<h1>'.$userToShow->GetName().'</h1>';
+        $ret .= '<ul>';
+        $ret .= '<li>Id: ' . $userToShow->GetID().'</li>';
+        $ret .= '<li>Personal identification number: ' . $userToShow->GetSSN(). '</li>';
+        $ret .= '<li>Boats assigned to this user: </li>';
+        $ret .= '<ul>';
+        foreach($userToShow->GetAllBoats() as $boat){
+            $ret .= '<li>' . $this->boatView->GetBoatDetails($boat) . '</li>';
+        }
+        $ret .= '</ul>';
+        $ret .= '</li>';
+        $ret .= '</ul>';
+        return $ret;
     }
 
     public function EditMember(){
