@@ -1,9 +1,5 @@
 <?php
-
-
 namespace view;
-
-
 class NavigationView
 {
     const ViewAllVerbose = "ViewAllVerbose";
@@ -15,25 +11,19 @@ class NavigationView
     const EditBoat = "EditBoat";
     const AddBoat = "AddBoat";
     const DeleteBoat = "DeleteBoat";
-
     private static $action = "action";
-
     public function GetAction(){
         if(isset($_GET[self::$action])){
             return $_GET[self::$action];
         }
-
         return null;
     }
-
     public function GetDeleteMemberLink($extra, $title){
         return '<a href="?' . self::$action . '=' . self::DeleteMember . '&' . $extra . '">' . $title . '</a>';
     }
-
     public function GetEditMemberLink($extra, $title){
         return '<a href="?' . self::$action . '=' . self::EditMember . '&' . $extra . '">' . $title . '</a>';
     }
-
     public function GetViewMemberLink($extra, $title){
         return '<a href="?' . self::$action . '=' . self::ViewMember . '&' . $extra . '">' . $title . '</a>';
     }
@@ -45,11 +35,9 @@ class NavigationView
     public function GetDeleteBoatLink($extra, $title){
         return '<a href="?' . self::$action . '=' . self::DeleteBoat . '&' . $extra . '">' . $title . '</a>';
     }
-
     public function GetBackLink(){
         return '<div><a href="?">Go back</a></div>';
     }
-
     public function ShowInstructions(){
         return '
     <h2>Menu</h2>
@@ -59,6 +47,5 @@ class NavigationView
         <li><a href="?' . self::$action . '=' . self::AddMember . '">Add Member</a></li>
     </ol>
         ';
-
     }
 }

@@ -1,9 +1,5 @@
 <?php
-
-
 namespace view;
-
-
 class HTMLView
 {
     public function Render($body){
