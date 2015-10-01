@@ -48,6 +48,7 @@ class NavigationView
 
     public function ShowInstructions(){
         return '
+    <h2>Menu</h2>
     <ol>
         <li><a href="?' . self::$action . '=' . self::ViewAll . '">View All</a></li>
         <li><a href="?' . self::$action . '=' . self::ViewAllVerbose . '">View All Verbose</a></li>
