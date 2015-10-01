@@ -66,5 +66,16 @@ class MemberRepository
         return $ret;
     }
 
+    public function GetUserById($id){
+        $stmt = $this->db->prepare("SELECT * FROM member WHERE id = ?");
+        $stmt->execute(array($id));
+
+        if($member = $stmt->fetchObject()){
+            return new \model\Member($member->name, $member->ssn, $member->id);
+        }
+
+        throw new \Exception("Member not found");
+    }
+
 
 }
