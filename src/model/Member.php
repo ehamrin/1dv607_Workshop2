@@ -45,5 +45,4 @@ class Member
     public function GetID(){
         return $this->id;
     }
-
 }
