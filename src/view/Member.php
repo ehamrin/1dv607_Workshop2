@@ -143,18 +143,21 @@ class Member
         if(isset($_POST[self::$ssn])) {
             return $_POST[self::$ssn];
         }
+        return null;
     }
 
     public function getUpdateSsn(){
         if(isset($_POST[self::$updateSsn])) {
             return $_POST[self::$updateSsn];
         }
+        return null;
     }
 
     public function getUpdateName(){
         if(isset($_POST[self::$updateName])) {
             return $_POST[self::$updateName];
         }
+        return null;
     }
 
     public function AddedSuccess(){
@@ -173,49 +176,36 @@ class Member
     public function HasEditedMember(){
         //Check if member has been submitted and no errors occur
         if(isset($_POST[self::$editMember])) {
-
-            $canIUpdateUser = true;
-
-            if (strlen($this->getUpdateName()) < 3) {
-                $this->message = "Name must be atleast 3 characters long.";
-                $canIUpdateUser = false;
-            }
-            if (strlen($this->getUpdateSsn()) < 10) {
-                $this->message = "Social security number must be 10 characters long.";
-                $canIUpdateUser = false;
-            }
-            if ($this->getUpdateName() !== strip_tags($this->getUpdateName())) {
-                $this->message = "Name contains invalid characters.";
-                $canIUpdateUser = false;
-            }
-            return $canIUpdateUser;
-        }else{
-            return false;
+            return $this->ValidateMember(new \model\Member($this->getUpdateName(), $this->getUpdateSsn()));
         }
+        return false;
     }
 
     public function HasAddedMember(){
         //Check if member has been submitted and no errors occur
         if(isset($_POST[self::$registration])) {
+            return $this->ValidateMember(new \model\Member($this->getRegisterName(), $this->getRegisterSsn()));
+        }
+        return false;
+    }
 
-            $canIRegisterNewUser = true;
+    private function ValidateMember(\model\Member $member){
 
-            if (strlen($this->getRegisterName()) < 3) {
-                $this->message = "Name must be atleast 3 characters long.";
-                $canIRegisterNewUser = false;
-            }
-            if (strlen($this->getRegisterSsn()) < 9) {
-                $this->message = "Social security number must be 10 characters long.";
-                $canIRegisterNewUser = false;
-            }
-            if ($this->getRegisterName() !== strip_tags($this->getRegisterName())) {
-                $this->message = "Name contains invalid characters.";
-                $canIRegisterNewUser = false;
-            }
-            return $canIRegisterNewUser;
-        }else{
+        if (strlen($member->GetName()) < 3) {
+            $this->message = "Name must be atleast 3 characters long.";
             return false;
         }
+        if (strlen($member->GetSSN()) < 10) {
+            $this->message = "Social security number must be 10 characters long.";
+            return false;
+        }
+        if ($member->GetName() !== strip_tags($member->GetName())) {
+            $this->message = "Name contains invalid characters.";
+            return false;
+        }
+
+        return true;
+
     }
 
     public function GetNewMember(){
@@ -224,9 +214,7 @@ class Member
     }
 
     public function WantsToDeleteMember(){
-        if(isset($_POST[self::$deleteMember])) {
-            return $_POST[self::$deleteMember];
-        }
+        return isset($_POST[self::$deleteMember]);
     }
 
     public function GetMemberToDelete(){
