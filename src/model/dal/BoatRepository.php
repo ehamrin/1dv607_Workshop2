@@ -27,6 +27,12 @@ class BoatRepository extends DatabaseConnection
         return $ret;
     }
 
+    public function DeleteAllBoats(){
+
+        $stmt = $this->db->prepare("DELETE FROM boat WHERE member = ?");
+        $stmt->execute(array($this->memberUnique));
+    }
+
     public function Save(\model\Boat $boat){
         if($boat->GetID() > 0){
             $this->Update($boat);
