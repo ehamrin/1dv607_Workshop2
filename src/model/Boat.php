@@ -20,8 +20,16 @@ class Boat
         return $this->type;
     }
 
+    public function SetType($type){
+        $this->type = $type;
+    }
+
     public function GetLength(){
         return $this->length;
+    }
+
+    public function SetLength($length){
+        $this->length = $length;
     }
 
     public function GetOwner(){

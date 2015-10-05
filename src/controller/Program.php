@@ -102,8 +102,21 @@ class Program
     }
 
     //Boat methods
+    // TODO: Good solution?
     public function EditBoat(){
-        return "";
+        if($this->boatView->HasEditedBoat()){
+            $updatedBoatID = $this->boatView->GetUpdatedBoatID();
+            $updatedBoat = $this->boatRepository->GetBoatById($updatedBoatID);
+
+            $updatedBoat->SetType($this->boatView->getPostType());
+            $updatedBoat->SetLength($this->boatView->getPostLength());
+
+            $this->boatRepository->Save($updatedBoat);
+
+            return $this->boatView->UpdateSuccess();
+        }else{
+            return $this->boatView->EditBoat();
+        }
     }
 
     public function AddBoat(){

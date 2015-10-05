@@ -61,6 +61,8 @@ class Boat
         return new \model\Boat($this->getPostType(), $this->getPostLength(), $this->getOwnerID());
     }
 
+    // ADD NEW BOAT
+
     public function HasAddedBoat(){
         //TODO: Validation?
         if(isset($_POST[self::$save])) {
@@ -70,12 +72,90 @@ class Boat
         }
     }
 
-    public function WantsToDeleteBoat(){
-        return isset($_POST[self::$deleteBoat]);
-    }
-
     public function AddedSuccess(){
         return "<p>A new boat has been added!</p>";
+    }
+
+        public function AddBoat() {
+        return "
+    <h2>Add new boat</h2>
+    <form method='post' >
+        <fieldset>
+        <legend>Register a new boat - Write the length and pick a type:</legend>
+            <label for='" . self::$length . "' >Length :</label>
+            <input type='text' size='20' name='" . self::$length . "' id='" . self::$length . "' value='' />
+            <br/>
+            <label for='" . self::$type . "' >Type :</label>
+            <select name='" . self::$type . "'>
+                <option value='Sailboat'>Sailboat</option>
+                <option value='Motorsailer'>Motorsailer</option>
+                <option value='Kayak'>Kayak</option>
+                <option value='Canoe'>Canoe</option>
+                <option value='Other'>Other</option>
+            </select>
+            <br/>
+          <input id='submit' type='submit' name='" . self::$save . "'  value='Save' />
+          <br/>
+        </fieldset>
+    </form>";
+    }
+
+    // EDIT BOAT
+
+    public function HasEditedBoat(){
+        if(isset($_POST[self::$editBoat])) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function GetUpdatedBoatID(){
+        if ($_GET[self::$boatPosition]) {
+            return $_GET[self::$boatPosition];
+        }
+        return null;
+    }
+
+    public function UpdateSuccess(){
+        return "<p>Boat has been updated!</p>";
+    }
+
+    //TODO: Set dropdown to current type?
+    public function EditBoat(){
+        $id = $_GET[self::$boatPosition];
+        $boatToEdit = $this->boatRepository->GetBoatById($id);
+
+        $ret = '<h2>Edit boat</h2>';
+        $ret .= "
+        <form method='post' >
+        <fieldset>
+            <label for='" . self::$length . "' >Length :</label>
+            <input type='text' size='20' name='" . self::$length
+            . "' id='" . self::$length . "' value='" . $boatToEdit->GetLength()  . "' />
+            <br/>
+            <label for='" . self::$type . "' >Type :</label>
+            <select name='" . self::$type . "'>
+                <option value='Sailboat'>Sailboat</option>
+                <option value='Motorsailer'>Motorsailer</option>
+                <option value='Kayak'>Kayak</option>
+                <option value='Canoe'>Canoe</option>
+                <option value='Other'>Other</option>
+            </select>
+            <br/>
+          <input id='submit' type='submit' name='" . self::$editBoat . "'  value='Save' />
+          <br/>
+        </fieldset>
+    </form>";
+        return $ret;
+    }
+
+
+
+    // DELETE BOAT
+
+    public function WantsToDeleteBoat(){
+        return isset($_POST[self::$deleteBoat]);
     }
 
     // TODO: Should this be handled by the view?
@@ -102,28 +182,5 @@ class Boat
         return "<p>Boat has been deleted!</p>";
     }
 
-    public function AddBoat() {
-        return "
-    <h2>Add new boat</h2>
-    <form method='post' >
-        <fieldset>
-        <legend>Register a new boat - Write the length and pick a type:</legend>
-            <label for='" . self::$length . "' >Length :</label>
-            <input type='text' size='20' name='" . self::$length . "' id='" . self::$length . "' value='' />
-            <br/>
-            <label for='" . self::$type . "' >Type :</label>
-            <select name='" . self::$type . "'>
-                <option value='Sailboat'>Sailboat</option>
-                <option value='Motorsailer'>Motorsailer</option>
-                <option value='Kayak'>Kayak</option>
-                <option value='Canoe'>Canoe</option>
-                <option value='Other'>Other</option>
-            </select>
-            <br/>
-          <input id='submit' type='submit' name='" . self::$save . "'  value='Save' />
-          <br/>
-        </fieldset>
-    </form>
-    ";
-    }
+
 }
