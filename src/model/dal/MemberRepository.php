@@ -42,17 +42,6 @@ class MemberRepository
         $stmt->execute(array($member->GetID()));
     }
 
-    public function Retrieve(\model\Member $member){
-        $stmt = $this->db->prepare("SELECT * FROM member WHERE id = ?");
-        $stmt->execute(array($member->GetID()));
-
-        if($member = $stmt->fetchObject()){
-            return new \model\Member($member->name, $member->ssn, $member->id);
-        }
-
-        throw new \Exception("Member not found");
-    }
-
     public function GetAll(){
         $ret = array();
 
