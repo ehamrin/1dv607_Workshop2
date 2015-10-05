@@ -26,7 +26,7 @@ class Member
     }
 
     public function DeleteAllBoats(){
-        return $this->boats->DeleteAllBoats();
+        $this->boats->DeleteAllBoats();
     }
 
     public function GetBoatCount(){
