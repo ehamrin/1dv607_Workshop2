@@ -15,6 +15,11 @@ class Member
     private static $registration = "MemberView::Register";
     private static $messageId = "MemberView::MessageId";
     private static $deleteMember = "MemberView::Delete";
+    private static $editMember = "MemberView::Edit";
+
+
+    private static $updateName = "MemberView::UpdateName";
+    private static $updateSsn = "MemberView::UpdateSsn";
 
     private static $memberPosition = "member";
     private $message;
@@ -85,7 +90,25 @@ class Member
     }
 
     public function EditMember(){
-        return "";
+        $id = $_GET['member'];
+        $userToEdit = $this->repository->GetUserById($id);
+
+        $ret = '<h2>Edit member</h2>';
+        $ret .= "
+            <form method='post' >
+            <fieldset>
+              <p id='" . self::$messageId . "'>" . $this->message ."</p>
+              <label for='" . self::$updateName . "' >Name :</label>
+              <input type='text' size='20' name='" . self::$updateName . "' id='" . self::$updateName . "' value='" . $userToEdit->GetName()  ."' />
+              <br/>
+              <label for='" . self::$updateSsn . "' >Social security number  :</label>
+              <input type='text' size='20' name='" . self::$updateSsn . "' id='" . self::$updateSsn . "' value='". $userToEdit->GetSSN() ."' />
+              <br/>
+              <input id='submit' type='submit' name='" . self::$editMember . "'  value='Update' />
+              <br/>
+            </fieldset>
+    			</form>";
+        return $ret;
     }
 
     public function AddMember(){
@@ -122,21 +145,53 @@ class Member
         }
     }
 
+    public function getUpdateSsn(){
+        if(isset($_POST[self::$updateSsn])) {
+            return $_POST[self::$updateSsn];
+        }
+    }
+
+    public function getUpdateName(){
+        if(isset($_POST[self::$updateName])) {
+            return $_POST[self::$updateName];
+        }
+    }
+
     public function AddedSuccess(){
         return "<p>A new member has been added!</p>";
     }
 
     public function UpdateSuccess(){
-        return "";
+        return "<p>User has been updated!</p>";
     }
 
     public function GetUpdatedMember(){
-        return new \model\Member("Kalle Anka", "8202020202");
+        $id = $_GET['member'];
+        return new \model\Member($this->getUpdateName(), $this->getUpdateSsn(), $id);
     }
 
     public function HasEditedMember(){
         //Check if member has been submitted and no errors occur
-        return false;
+        if(isset($_POST[self::$editMember])) {
+
+            $canIUpdateUser = true;
+
+            if (strlen($this->getUpdateName()) < 3) {
+                $this->message = "Name must be atleast 3 characters long.";
+                $canIUpdateUser = false;
+            }
+            if (strlen($this->getUpdateSsn()) < 10) {
+                $this->message = "Social security number must be 10 characters long.";
+                $canIUpdateUser = false;
+            }
+            if ($this->getUpdateName() !== strip_tags($this->getUpdateName())) {
+                $this->message = "Name contains invalid characters.";
+                $canIUpdateUser = false;
+            }
+            return $canIUpdateUser;
+        }else{
+            return false;
+        }
     }
 
     public function HasAddedMember(){
