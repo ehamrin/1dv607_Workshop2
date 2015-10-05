@@ -4,22 +4,14 @@
 namespace model\dal;
 
 
-class BoatRepository
+class BoatRepository extends DatabaseConnection
 {
-    private $db;
     private $memberUnique;
     //TODO: Solve problem when constructing in Program.php->Main()
     //Temp-fix, default value 0
     public function __construct($memberUnique = 0){
+        parent::__construct();
         $this->memberUnique = $memberUnique;
-
-        $connection = new DatabaseConnection();
-        try{
-            $this->db = $connection->Establish();
-            $this->db->SetAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-        }catch(\Exception $e){
-            throw $e;
-        }
     }
 
     public function GetAllBoats(){

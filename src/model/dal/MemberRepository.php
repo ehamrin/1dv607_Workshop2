@@ -4,20 +4,8 @@
 namespace model\dal;
 
 
-class MemberRepository
+class MemberRepository extends DatabaseConnection
 {
-    private $db;
-
-    public function __construct(){
-        $connection = new DatabaseConnection();
-        try{
-            $this->db = $connection->Establish();
-            $this->db->SetAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION);
-        }catch(\Exception $e){
-            throw $e;
-        }
-    }
-
     public function Save(\model\Member $member){
         if($member->GetID() > 0){
             $this->Update($member);
