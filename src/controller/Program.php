@@ -118,7 +118,14 @@ class Program
     }
 
     public function DeleteBoat(){
-        return "";
+        if($this->boatView->WantsToDeleteBoat()){
+            $deleteBoat = $this->boatView->GetBoatToDelete();
+            $this->boatRepository->Delete($deleteBoat);
+
+            return $this->boatView->DeletedSuccess();
+        }else{
+            return $this->boatView->DeleteBoat();
+        }
     }
 
 }

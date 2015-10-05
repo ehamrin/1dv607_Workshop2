@@ -4,17 +4,24 @@ namespace view;
 
 class Boat
 {
+    /* @var $navView \model\dal\NavigationView */
     private $navView;
+
+    /* @var $boatRepository \model\dal\BoatRepository */
+    private $boatRepository;
 
     private static $length = "BoatView::Length";
     private static $type = "BoatView::Type";
     private static $save = "BoatView::SaveBoat";
+    private static $deleteBoat = "BoatView::Delete";
+    private static $editBoat = "BoatView:Edit";
 
     private static $memberPosition = "member";
     private static $boatPosition = "boat";
 
     public function __construct(NavigationView $navView) {
         $this->navView = $navView;
+        $this->boatRepository = new \model\dal\BoatRepository();
     }
 
     public function GetBoatDetails(\model\Boat $boat){
@@ -63,8 +70,36 @@ class Boat
         }
     }
 
+    public function WantsToDeleteBoat(){
+        return isset($_POST[self::$deleteBoat]);
+    }
+
     public function AddedSuccess(){
         return "<p>A new boat has been added!</p>";
+    }
+
+    // TODO: Should this be handled by the view?
+    public function GetBoatToDelete(){
+        $id = $_GET[self::$boatPosition];
+        $userToDelete = $this->boatRepository->GetBoatById($id);
+        return $userToDelete;
+    }
+
+    public function DeleteBoat(){
+        $id = $_GET[self::$boatPosition];
+        $boatToDelete = $this->boatRepository->GetBoatById($id);
+
+        $ret = '<p>Are you sure you want to delete '. $boatToDelete->GetType()
+                . ' (' . $boatToDelete->GetLength() .  'm)' . '?</p>';
+        $ret .= '
+            <form method="post">
+                <input id="submit" type="submit" name="' . self::$deleteBoat . '"  value="Delete" />
+            </form>';
+        return $ret;
+    }
+
+    public function DeletedSuccess(){
+        return "<p>Boat has been deleted!</p>";
     }
 
     public function AddBoat() {

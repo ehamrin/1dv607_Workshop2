@@ -51,4 +51,14 @@ class BoatRepository extends DatabaseConnection
         $stmt->execute(array($boat->GetID()));
     }
 
+    public function GetBoatById($id){
+        $stmt = $this->db->prepare("SELECT * FROM boat WHERE id = ?");
+        $stmt->execute(array($id));
+
+        if($boat = $stmt->fetchObject()){
+            return new \model\Boat($boat->type, $boat->length, $this->memberUnique, $boat->id);
+        }
+
+        throw new \Exception("Boat not found");
+    }
 }
