@@ -32,6 +32,10 @@ class NavigationView
         return '<a href="?' . self::$action . '=' . self::AddBoat . '&' . $extra . '">' . $title . '</a>';
     }
 
+    public function GetEditBoatLink($extra, $title){
+        return '<a href="?' . self::$action . '=' . self::EditBoat . '&' . $extra . '">' . $title . '</a>';
+    }
+
     public function GetDeleteBoatLink($extra, $title){
         return '<a href="?' . self::$action . '=' . self::DeleteBoat . '&' . $extra . '">' . $title . '</a>';
     }

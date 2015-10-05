@@ -59,7 +59,7 @@ class Program
         $this->memberRepository = new \model\dal\MemberRepository();
         $this->boatRepository = new \model\dal\BoatRepository();
         $this->navView = new \view\NavigationView();
-        $this->boatView = new \view\Boat();
+        $this->boatView = new \view\Boat($this->navView);
         $this->memberView = new \view\Member($this->memberRepository, $this->navView, $this->boatView);
 
         return $this->RunAction();

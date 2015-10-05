@@ -21,7 +21,7 @@ class BoatRepository extends DatabaseConnection
         $stmt->execute(array($this->memberUnique));
 
         while($boat = $stmt->fetchObject()){
-            $ret[] =  new \model\Boat($boat->type, $boat->length, $boat->id);
+            $ret[] =  new \model\Boat($boat->type, $boat->length, $this->memberUnique, $boat->id);
         }
 
         return $ret;

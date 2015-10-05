@@ -4,14 +4,29 @@ namespace view;
 
 class Boat
 {
+    private $navView;
+
     private static $length = "BoatView::Length";
     private static $type = "BoatView::Type";
     private static $save = "BoatView::SaveBoat";
 
-    private static $memberGETData = "member";
+    private static $memberPosition = "member";
+    private static $boatPosition = "boat";
+
+    public function __construct(NavigationView $navView) {
+        $this->navView = $navView;
+    }
 
     public function GetBoatDetails(\model\Boat $boat){
-        return 'Type: ' . $boat->GetType() . ' - Length: ' . $boat->GetLength() . PHP_EOL;
+        return 'Type: ' . $boat->GetType() . ' - Length: ' . $boat->GetLength() . ' ' . $this->GetBoatAdminLinks($boat) . PHP_EOL;
+    }
+
+    private function GetBoatAdminLinks(\model\Boat $boat){
+        $ret = '';
+        $ret .= $this->navView->GetEditBoatLink(self::$boatPosition . '=' . $boat->GetID(), "Edit boat" . ' ');
+        $ret .= $this->navView->GetDeleteBoatLink(self::$boatPosition . '=' . $boat->GetID(), "Delete");
+
+        return $ret;
     }
 
     public function getPostLength(){
@@ -29,8 +44,8 @@ class Boat
     }
 
     public function getOwnerID(){
-        if(isset($_GET[self::$memberGETData])){
-            return $_GET[self::$memberGETData];
+        if(isset($_GET[self::$memberPosition])){
+            return $_GET[self::$memberPosition];
         }
         return null;
     }
