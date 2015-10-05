@@ -26,6 +26,8 @@ class MemberRepository extends DatabaseConnection
     }
 
     public function Delete(\model\Member $member){
+        $member->DeleteAllBoats();
+
         $stmt = $this->db->prepare("DELETE FROM member WHERE id = ?");
         $stmt->execute(array($member->GetID()));
     }
