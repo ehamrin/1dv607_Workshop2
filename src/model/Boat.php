@@ -10,14 +10,10 @@ class Boat
     private $owner;
 
     public function __construct($type, $length, $ownerID, $id = 0){
-        if(Type::IsType($type) == false){
-            throw new \Exception("Type not valid");
-        }
-
-        $this->type = $type;
-        $this->length = $length;
-        $this->owner = $ownerID;
-        $this->id = $id;
+        $this->SetType($type);
+        $this->SetLength($length);
+        $this->SetOwner($ownerID);
+        $this->SetID($id);
     }
 
     public function GetType(){
@@ -37,7 +33,8 @@ class Boat
     }
 
     public function SetLength($length){
-        $this->length = $length;
+        //Make compatible for entering 2,14
+        $this->length = str_replace(',', '.', $length);
     }
 
     public function GetOwner(){
