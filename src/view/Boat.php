@@ -2,6 +2,8 @@
 
 namespace view;
 
+use model\Type;
+
 class Boat
 {
     /* @var $navView \model\dal\NavigationView */
@@ -87,11 +89,7 @@ class Boat
             <br/>
             <label for='" . self::$type . "' >Type :</label>
             <select name='" . self::$type . "'>
-                <option value='Sailboat'>Sailboat</option>
-                <option value='Motorsailer'>Motorsailer</option>
-                <option value='Kayak'>Kayak</option>
-                <option value='Canoe'>Canoe</option>
-                <option value='Other'>Other</option>
+                " . $this->GetTypeOptionsHTML() . "
             </select>
             <br/>
           <input id='submit' type='submit' name='" . self::$save . "'  value='Save' />
@@ -136,11 +134,7 @@ class Boat
             <br/>
             <label for='" . self::$type . "' >Type :</label>
             <select name='" . self::$type . "'>
-                <option value='Sailboat'>Sailboat</option>
-                <option value='Motorsailer'>Motorsailer</option>
-                <option value='Kayak'>Kayak</option>
-                <option value='Canoe'>Canoe</option>
-                <option value='Other'>Other</option>
+                " . $this->GetTypeOptionsHTML($boatToEdit->GetType()) . "
             </select>
             <br/>
           <input id='submit' type='submit' name='" . self::$editBoat . "'  value='Save' />
@@ -150,6 +144,15 @@ class Boat
         return $ret;
     }
 
+    private function GetTypeOptionsHTML($current = null){
+        $ret = '';
+        foreach(Type::GetTypes() as $type){
+            $selected = ($type == $current) ? ' selected="selected"' : '';
+            $ret .= '<option value="' . $type . '"' . $selected . '>' . $type . '</option>"';
+        }
+
+        return $ret;
+    }
 
 
     // DELETE BOAT

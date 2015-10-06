@@ -10,6 +10,10 @@ class Boat
     private $owner;
 
     public function __construct($type, $length, $ownerID, $id = 0){
+        if(Type::IsType($type) == false){
+            throw new \Exception("Type not valid");
+        }
+
         $this->type = $type;
         $this->length = $length;
         $this->owner = $ownerID;
@@ -21,6 +25,10 @@ class Boat
     }
 
     public function SetType($type){
+        if(Type::IsType($type) == false){
+            throw new \Exception("Type not valid");
+        }
+
         $this->type = $type;
     }
 
