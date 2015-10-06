@@ -3,7 +3,7 @@
 
 namespace model;
 
-
+//Class to simulate Enum
 class Type
 {
     const Sailboat = 'Sailboat';
@@ -30,7 +30,5 @@ class Type
         }
         return false;
     }
-
-
 
 }
