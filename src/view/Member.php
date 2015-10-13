@@ -168,8 +168,11 @@ class Member
         return "<p>User has been updated!</p>";
     }
 
+    private function GetIdToEdit(){
+        return $_GET['member'];
+    }
     public function GetUpdatedMember(){
-        $id = $_GET['member'];
+        $id = $this->GetIdToEdit();
         return new \model\Member($this->GetUpdateName(), $this->GetUpdateSsn(), $id);
     }
 
