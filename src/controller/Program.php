@@ -108,8 +108,8 @@ class Program
             $updatedBoatID = $this->boatView->GetUpdatedBoatID();
             $updatedBoat = $this->boatRepository->GetBoatById($updatedBoatID);
 
-            $updatedBoat->SetType($this->boatView->getPostType());
-            $updatedBoat->SetLength($this->boatView->getPostLength());
+            $updatedBoat->SetType($this->boatView->GetPostType());
+            $updatedBoat->SetLength($this->boatView->GetPostLength());
 
             $this->boatRepository->Save($updatedBoat);
 
@@ -123,7 +123,6 @@ class Program
         if($this->boatView->HasAddedBoat()){
             $newBoat = $this->boatView->GetNewBoat();
             $this->boatRepository->Save($newBoat);
-
             return $this->boatView->AddedSuccess();
         }else{
             return $this->boatView->AddBoat();

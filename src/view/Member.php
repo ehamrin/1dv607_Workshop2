@@ -31,7 +31,7 @@ class Member
     }
 
     public function ViewAll(){
-        $ret = '<h1>En lista på alla medlemmar</h1>';
+        $ret = '<h1>A list of all members</h1>';
         $ret .= '<ul>';
 
         foreach($this->repository->GetAll() as $member){
@@ -44,7 +44,7 @@ class Member
     }
 
     public function ViewAllVerbose(){
-        $ret = '<h1>En lista på alla medlemmar</h1>';
+        $ret = '<h1>A verbose list of all members</h1>';
         $ret .= '<ul>';
 
         foreach($this->repository->GetAll() as $member){
@@ -119,7 +119,7 @@ class Member
             <legend>Register a new user - Write name and social security number</legend>
               <p id='" . self::$messageId . "'>" . $this->message ."</p>
               <label for='" . self::$name . "' >Name :</label>
-              <input type='text' size='20' name='" . self::$name . "' id='" . self::$name . "' value='" . strip_tags($this->getRegisterName())  ."' />
+              <input type='text' size='20' name='" . self::$name . "' id='" . self::$name . "' value='" . strip_tags($this->GetRegisterName())  ."' />
               <br/>
               <label for='" . self::$ssn . "' >Social security number  :</label>
               <input type='text' size='20' name='" . self::$ssn . "' id='" . self::$ssn . "' value='' />
@@ -132,28 +132,28 @@ class Member
     		";
     }
 
-    public function getRegisterName(){
+    public function GetRegisterName(){
         if(isset($_POST[self::$name])) {
             return $_POST[self::$name];
         }
         return null;
     }
 
-    public function getRegisterSsn(){
+    public function GetRegisterSsn(){
         if(isset($_POST[self::$ssn])) {
             return $_POST[self::$ssn];
         }
         return null;
     }
 
-    public function getUpdateSsn(){
+    public function GetUpdateSsn(){
         if(isset($_POST[self::$updateSsn])) {
             return $_POST[self::$updateSsn];
         }
         return null;
     }
 
-    public function getUpdateName(){
+    public function GetUpdateName(){
         if(isset($_POST[self::$updateName])) {
             return $_POST[self::$updateName];
         }
@@ -170,13 +170,13 @@ class Member
 
     public function GetUpdatedMember(){
         $id = $_GET['member'];
-        return new \model\Member($this->getUpdateName(), $this->getUpdateSsn(), $id);
+        return new \model\Member($this->GetUpdateName(), $this->GetUpdateSsn(), $id);
     }
 
     public function HasEditedMember(){
         //Check if member has been submitted and no errors occur
         if(isset($_POST[self::$editMember])) {
-            return $this->ValidateMember(new \model\Member($this->getUpdateName(), $this->getUpdateSsn()));
+            return $this->ValidateMember($this->GetUpdateName(), $this->GetUpdateSsn());
         }
         return false;
     }
@@ -184,33 +184,29 @@ class Member
     public function HasAddedMember(){
         //Check if member has been submitted and no errors occur
         if(isset($_POST[self::$registration])) {
-            return $this->ValidateMember(new \model\Member($this->getRegisterName(), $this->getRegisterSsn()));
+            return $this->ValidateMember($this->GetRegisterName(), $this->GetRegisterSsn());
         }
         return false;
     }
 
-    private function ValidateMember(\model\Member $member){
+    private function ValidateMember($name, $ssn){
 
-        if (strlen($member->GetName()) < 3) {
+        try{
+            new \model\Member($name, $ssn);
+            return true;
+        }catch(\model\ShortNameException $e){
             $this->message = "Name must be atleast 3 characters long.";
-            return false;
-        }
-        if (strlen($member->GetSSN()) < 10) {
-            $this->message = "Social security number must be 10 characters long.";
-            return false;
-        }
-        if ($member->GetName() !== strip_tags($member->GetName())) {
+        }catch(\model\InvalidNameException $e){
             $this->message = "Name contains invalid characters.";
-            return false;
+        }catch(\model\InvalidSSNException $e){
+            $this->message = "Social security number must valid.";
         }
-
-        return true;
-
+        return false;
     }
 
     public function GetNewMember(){
         //Check if member has been submitted and no errors occur
-        return new \model\Member($this->getRegisterName(), $this->getRegisterSsn());
+        return new \model\Member($this->GetRegisterName(), $this->GetRegisterSsn());
     }
 
     public function WantsToDeleteMember(){

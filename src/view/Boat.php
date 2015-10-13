@@ -38,21 +38,21 @@ class Boat
         return $ret;
     }
 
-    public function getPostLength(){
+    public function GetPostLength(){
         if(isset($_POST[self::$length])) {
             return $_POST[self::$length];
         }
         return null;
     }
 
-    public function getPostType(){
+    public function GetPostType(){
         if(isset($_POST[self::$type])) {
             return $_POST[self::$type];
         }
         return null;
     }
 
-    public function getOwnerID(){
+    public function GetOwnerID(){
         if(isset($_GET[self::$memberPosition])){
             return $_GET[self::$memberPosition];
         }
@@ -60,7 +60,7 @@ class Boat
     }
 
     public function GetNewBoat(){
-        return new \model\Boat($this->getPostType(), $this->getPostLength(), $this->getOwnerID());
+        return new \model\Boat($this->GetPostType(), $this->GetPostLength(), $this->GetOwnerID());
     }
 
     // ADD NEW BOAT
@@ -85,7 +85,7 @@ class Boat
         <fieldset>
         <legend>Register a new boat - Write the length and pick a type:</legend>
             <label for='" . self::$length . "' >Length :</label>
-            <input type='text' size='20' name='" . self::$length . "' id='" . self::$length . "' value='' />
+            <input type='text' size='20' name='" . self::$length . "' id='" . self::$length . "' value='' />m
             <br/>
             <label for='" . self::$type . "' >Type :</label>
             <select name='" . self::$type . "'>
@@ -130,7 +130,7 @@ class Boat
         <fieldset>
             <label for='" . self::$length . "' >Length :</label>
             <input type='text' size='20' name='" . self::$length
-            . "' id='" . self::$length . "' value='" . $boatToEdit->GetLength()  . "' />
+            . "' id='" . self::$length . "' value='" . $boatToEdit->GetLength()  . "' />m
             <br/>
             <label for='" . self::$type . "' >Type :</label>
             <select name='" . self::$type . "'>

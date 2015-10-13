@@ -28,6 +28,14 @@ class Boat
         $this->type = $type;
     }
 
+    public function GetOwner(){
+        return $this->owner;
+    }
+
+    public function SetOwner($ownerID){
+        $this->owner = $ownerID;
+    }
+
     public function GetLength(){
         return $this->length;
     }
@@ -35,14 +43,6 @@ class Boat
     public function SetLength($length){
         //Make compatible for entering 2,14
         $this->length = str_replace(',', '.', $length);
-    }
-
-    public function GetOwner(){
-        return $this->owner;
-    }
-
-    public function SetOwner($ownerID){
-        $this->owner = $ownerID;
     }
 
     public function SetID($id){

@@ -21,7 +21,7 @@ class BoatRepository extends DatabaseConnection
         $stmt->execute(array($this->memberUnique));
 
         while($boat = $stmt->fetchObject()){
-            $ret[] =  new \model\Boat($boat->type, $boat->length, $this->memberUnique, $boat->id);
+            $ret[] =  new \model\Boat($boat->type, $boat->length, $boat->member, $boat->id);
         }
 
         return $ret;
@@ -43,7 +43,7 @@ class BoatRepository extends DatabaseConnection
 
     private function Create(\model\Boat $boat){
         $stmt = $this->db->prepare("INSERT INTO boat (member, length, type) VALUE (?, ?, ?)");
-        $stmt->execute(array($boat->getOwner(), $boat->GetLength(), $boat->GetType()));
+        $stmt->execute(array($boat->GetOwner(), $boat->GetLength(), $boat->GetType()));
         $boat->SetID($this->db->lastInsertId());
     }
 
@@ -62,7 +62,7 @@ class BoatRepository extends DatabaseConnection
         $stmt->execute(array($id));
 
         if($boat = $stmt->fetchObject()){
-            return new \model\Boat($boat->type, $boat->length, $this->memberUnique, $boat->id);
+            return new \model\Boat($boat->type, $boat->length, $boat->member, $boat->id);
         }
 
         throw new \Exception("Boat not found");
